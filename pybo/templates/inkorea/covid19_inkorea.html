@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+ <h1 style="text-align: center;">국내 코로나(Covid-19) 확진자 및 사망자</h1>
+<div>
+    <div style="width: 100%; height: 600px; box-sizing:border-box"> 
+        {{map|safe}}
+    </div>
+    <hr>
+    
+    {% for city in korea_city %}
+    <ul> 
+       <li>{{city}}</li>
+    </ul>
+    {% endfor %}
+    
+</div>
+
+{% endblock %}

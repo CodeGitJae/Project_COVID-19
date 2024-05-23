@@ -8,13 +8,15 @@
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> 
     <script src="{{url_for('static', filename='js/bootstrap.bundle.min.js')}}"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha384-qHb4QOSvAztNLoNgxYVps8wne7igq/6zTfUayOqjqBZh+KjqAAjaB6Ex6Rx7q8KL" crossorigin="">
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha384-Tm4E7P+E+G7xdRzPhRhYks76lmS/cZ2F9asEfI7kWvNKEdDhvhypZK5N6p+lKUL2" crossorigin=""></script>
 </head>
 <body>
     <nav class="navbar bg-body-tertiary">
         <div class="container-fluid row justify-content-center py-4" style="background-color: lightgray;">
-          <a class="navbar-brand" href="#" style="font-size: 50px; text-align: center;">코로나 현황</a> <br>
+          <a class="navbar-brand" href="/" style="font-size: 50px; text-align: center;">코로나 현황</a> <br>
           <div style=" text-align: center;">
-                <a class="navbar-brand" href="#" style="font-size: 30px;">국내</a> |
+                <a class="navbar-brand" href="{{url_for('citygungu.covid19_inkorea')}}" style="font-size: 30px;">국내</a> |
                 <a class="navbar-brand" href="#" style="font-size: 30px;">전 세계</a> |
                 <a class="navbar-brand" href="#" style="font-size: 30px;">일자별</a> |
                 <a class="navbar-brand" href="#" style="font-size: 30px;">성별</a> |
