@@ -28,4 +28,10 @@ $(document).ready(() => {
     console.error('백신접종현황 요청 실패');
   });
   
+  $('.carousel-item').eq(0).addClass('active');
+
+  $('.covid-search').on('click', (e)=> { 
+    e.preventDefault();
+    alert('준비중 입니다.');
+  })
 })

@@ -1,6 +1,7 @@
 from flask import Flask, Blueprint, render_template
 import requests
 from bs4 import BeautifulSoup
+import json
 
 bp = Blueprint("main", __name__, url_prefix="/")
 
@@ -61,8 +62,30 @@ def get_news():
 
   return news
 
+def get_covid_data():
+  API_KEY = 'JUNpM9PuTFDKEhtZXiolYgOaS7bdQBAwc'
+  url = f'https://api.corona-19.kr/korea/?serviceKey={API_KEY}'
+
+  r = requests.get(url)
+  response_bytes = r.content
+  response_str = response_bytes.decode('utf-8')
+  response_json = json.loads(response_str)
+
+  covid_data = {
+    'totalCnt' : response_json['korea']['totalCnt'],
+    'deathCnt' : response_json['korea']['deathCnt'],
+    'incDec' : response_json['korea']['incDec']
+  }
+
+  return covid_data
+
 @bp.route("/")
 def index():
   news = get_news()
-  
-  return render_template("index.html", news=news)
+  covid_data = get_covid_data()
+
+  return render_template("index.html", news=news, covid_data=covid_data)
+
+@bp.route("/sample")
+def sample():
+  return render_template("sample.html")

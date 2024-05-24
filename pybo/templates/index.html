@@ -1,86 +1,324 @@
 {% extends 'base.html' %}
 
+{% block css %}
+  <link rel="stylesheet" href="{{url_for('static', filename='/css/index.css')}}">
+{% endblock %}
+
 {% block content %}
-<link rel="stylesheet" href="{{url_for('static', filename='/css/index.css')}}">
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="hero d-flex align-items-center">
+    <div class="container">
+      <div class="row gy-4 d-flex justify-content-between">
+        <div class="col-lg-7 order-2 order-lg-1 d-flex flex-column justify-content-center">
+          <h2 data-aos="fade-up">Zhfhsk rmsid Dltdjqhdlsms rmfwk sjgsmswnd</h2>
+          <p data-aos="fade-up" data-aos-delay="100">Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti obcaecati deserunt voluptate necessitatibus incidunt beatae quod earum laborum saepe, dolor doloribus reiciendis nisi, quasi tempore placeat mollitia fugit temporibus maiores.</p>
 
-<div class="board py-3">
-  <div class="mb-3 covid-domestic">
-    <h3>코로나 현황(국내-누적)</h3>
-    <h5>(23년 08.02 기준)</h5>
-    <div class="row">
-      <div class="col">
-        <h6>확진자</h6>
-        <span class="totalCnt"></span>
-      </div>
-      <div class="col">
-        <h6>전일대비</h6>
-        <span class="incDec"></span>
-      </div>
-      <div class="col">
-        <h6>사망자</h6>
-        <span class="deathCnt"></span>
-      </div>
-    </div>
-  </div>
+          <form action="#" class="form-search d-flex align-items-stretch mb-3" data-aos="fade-up" data-aos-delay="200">
+            <input type="text" class="form-control" placeholder="지역별 코로나 현황 검색">
+            <button type="submit" class="btn btn-primary covid-search">Search</button>
+          </form>
 
-  <div class="mb-3 covid-vaccine">
-    <h3>백신 접종 현황</h3>
-    <h5>(23년 10.16 기준)</h5>
-    <h5 class="mt-3">1차</h5>
-    <div class="row">
-      <div class="col">
-        <h6>신규</h6>
-        <span class="vaccine1-new"></span>
-      </div>
-      <div class="col">
-        <h6>누적</h6>
-        <span class="vaccine1-all"></span>
-      </div>
-      <div class="col">
-        <h6>접종률</h6>
-        <span class="vaccine1-pcnt"></span>
-      </div>
-    </div>
-    <h5 class="mt-3">2차</h5>
-    <div class="row">
-      <div class="col">
-        <h6>신규</h6>
-        <span class="vaccine2-new"></span>
-      </div>
-      <div class="col">
-        <h6>누적</h6>
-        <span class="vaccine2-all"></span>
-      </div>
-      <div class="col">
-        <h6>접종률</h6>
-        <span class="vaccine2-pcnt"></span>
-      </div>
-    </div>
-  </div>
-</div>
+          <div class="row gy-4" data-aos="fade-up" data-aos-delay="400">
 
-<div class="covid-news board mt-4">
-  <h3>코로나 최신 뉴스</h3>
+            <div class="col-lg-4 col-6">
+              <div class="stats-item text-center w-100 h-100">
+                <span data-purecounter-start="0" data-purecounter-end="{{covid_data.totalCnt}}" data-purecounter-duration="1" class="purecounter totalCnt"></span>
+                <p>확진자</p>
+              </div>
+            </div><!-- End Stats Item -->
 
-  {% for n in news %}
-  <div class="card mb-3">
-    <div class="row g-0">
-      <div class="col-md-4 mt-3">
-        <img src="{{n.thumb}}" class="img-fluid rounded-start" alt="...">
-      </div>
-      <div class="col-md-8">
-        <div class="card-body">
-          <a href="{{n.href}}" target="_blank">
-            <h5 class="card-title">{{n.title}}</h5>
-          </a>
-          <p class="card-text">{{n.content}}</p>
-          <p class="card-text"><small class="text-body-secondary">{{n.time}}</small></p>
+            <div class="col-lg-4 col-6">
+              <div class="stats-item text-center w-100 h-100">
+                <span data-purecounter-start="0" data-purecounter-end="{{covid_data.incDec}}" data-purecounter-duration="1" class="purecounter incDec"></span>
+                <p>전일대비</p>
+              </div>
+            </div><!-- End Stats Item -->
+
+            <div class="col-lg-4 col-6">
+              <div class="stats-item text-center w-100 h-100">
+                <span data-purecounter-start="0" data-purecounter-end="{{covid_data.deathCnt}}" data-purecounter-duration="1" class="purecounter deathCnt"></span>
+                <p>사망자</p>
+              </div>
+            </div><!-- End Stats Item -->
+
+          </div>
         </div>
+
       </div>
     </div>
-  </div>
-  {% endfor %}
-</div>
+  </section><!-- End Hero Section -->
+
+  <main id="main">
+
+    <!-- ======= Featured Services Section ======= -->
+    <section id="featured-services" class="featured-services">
+      <div class="container">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-4 col-md-6 service-item d-flex" data-aos="fade-up">
+            <div class="icon flex-shrink-0"><i class="fa-solid fa-person-chalkboard"></i></div>
+            <div>
+              <h4 class="title">Covid Board</h4>
+              <p class="description">국내 코로나 및 백신 접종 현황을 확인하실 수 있습니다.</p>
+              <a href="#covid-board" class="readmore stretched-link"><span>Learn More</span><i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+          <!-- End Service Item -->
+
+          <div class="col-lg-4 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="100">
+            <div class="icon flex-shrink-0"><i class="fa-regular fa-newspaper"></i></div>
+            <div>
+              <h4 class="title">Covid News</h4>
+              <p class="description">코로나 관련 최신 기사 목록들을 제공합니다.</p>
+              <a href="#news" class="readmore stretched-link"><span>Learn More</span><i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div><!-- End Service Item -->
+
+          <div class="col-lg-4 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="200">
+            <div class="icon flex-shrink-0"><i class="fa-solid fa-question"></i></div>
+            <div>
+              <h4 class="title">Asked Questions</h4>
+              <p class="description">코로나 관련된 자주 묻는 질문과 답변들을 확인하실 수 있습니다.</p>
+              <a href="#faq" class="readmore stretched-link"><span>Learn More</span><i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div><!-- End Service Item -->
+
+        </div>
+
+      </div>
+    </section><!-- End Featured Services Section -->
+
+    <!-- ======= About Us Section ======= -->
+    <section id="about" class="about pt-0">
+      <div class="container" data-aos="fade-up">
+
+        <div class="row gy-4" data-aos="fade-up" data-aos-delay="200">
+          <div class="col-lg-12 position-relative align-self-start order-lg-last order-first">
+            <div id="covid-board" class="board py-3 covid-board content text-center">
+              <div class="mb-3 covid-domestic" data-aos="fade-up" data-aos-delay="200">
+                <h3>코로나 현황(국내-누적)</h3>
+                <h5>(23년 08.02 기준)</h5>
+                <div class="row">
+                  <div class="col">
+                    <h6>확진자</h6>
+                    <span class="totalCnt"></span>
+                  </div>
+                  <div class="col">
+                    <h6>전일대비</h6>
+                    <span class="incDec"></span>
+                  </div>
+                  <div class="col">
+                    <h6>사망자</h6>
+                    <span class="deathCnt"></span>
+                  </div>
+                </div>
+              </div>
+            
+              <div class="mb-3 covid-vaccine" data-aos="fade-up" data-aos-delay="200">
+                <h3>백신 접종 현황</h3>
+                <h5>(23년 10.16 기준)</h5>
+                <h5 class="mt-3">1차</h5>
+                <div class="row">
+                  <div class="col">
+                    <h6>신규</h6>
+                    <span class="vaccine1-new"></span>
+                  </div>
+                  <div class="col">
+                    <h6>누적</h6>
+                    <span class="vaccine1-all"></span>
+                  </div>
+                  <div class="col">
+                    <h6>접종률</h6>
+                    <span class="vaccine1-pcnt"></span>
+                  </div>
+                </div>
+                <h5 class="mt-3">2차</h5>
+                <div class="row">
+                  <div class="col">
+                    <h6>신규</h6>
+                    <span class="vaccine2-new"></span>
+                  </div>
+                  <div class="col">
+                    <h6>누적</h6>
+                    <span class="vaccine2-all"></span>
+                  </div>
+                  <div class="col">
+                    <h6>접종률</h6>
+                    <span class="vaccine2-pcnt"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- <div class="col-lg-6 content order-last  order-lg-first">
+            <h3>About Us</h3>
+            <p>
+              Dolor iure expedita id fuga asperiores qui sunt consequatur minima. Quidem voluptas deleniti. Sit quia molestiae quia quas qui magnam itaque veritatis dolores. Corrupti totam ut eius incidunt reiciendis veritatis asperiores placeat.
+            </p>
+            <ul>
+              <li data-aos="fade-up" data-aos-delay="100">
+                <i class="bi bi-diagram-3"></i>
+                <div>
+                  <h5>Ullamco laboris nisi ut aliquip consequat</h5>
+                  <p>Magni facilis facilis repellendus cum excepturi quaerat praesentium libre trade</p>
+                </div>
+              </li>
+              <li data-aos="fade-up" data-aos-delay="200">
+                <i class="bi bi-fullscreen-exit"></i>
+                <div>
+                  <h5>Magnam soluta odio exercitationem reprehenderi</h5>
+                  <p>Quo totam dolorum at pariatur aut distinctio dolorum laudantium illo direna pasata redi</p>
+                </div>
+              </li>
+              <li data-aos="fade-up" data-aos-delay="300">
+                <i class="bi bi-broadcast"></i>
+                <div>
+                  <h5>Voluptatem et qui exercitationem</h5>
+                  <p>Et velit et eos maiores est tempora et quos dolorem autem tempora incidunt maxime veniam</p>
+                </div>
+              </li>
+            </ul>
+          </div> -->
+
+        </div>
+
+      </div>
+    </section><!-- End About Us Section -->
+
+    <!-- ======= Services Section ======= -->
+    <section id="service" class="services pt-0">
+      <div class="container" data-aos="fade-up">
+
+        <div id="news" class="section-header">
+          <span>Covid News</span>
+          <h2>Covid News</h2>
+        </div>
+
+        {% for n in news %}
+          <div class="card mb-3" data-aos="fade-up" data-aos-delay="200">
+            <div class="row g-0">
+              <div class="col-md-4 mt-3 px-3">
+                <img src="{{n.thumb}}" class="img-fluid rounded-start" alt="...">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <a href="{{n.href}}" target="_blank">
+                    <h5 class="card-title" title="{{n.title}}">{{n.title}}</h5>
+                  </a>
+                  <p class="card-text">{{n.content}}</p>
+                  <p class="card-text"><small class="text-body-secondary">{{n.time}}</small></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+
+      </div>
+    </section><!-- End Services Section -->
+
+    <!-- ======= Frequently Asked Questions Section ======= -->
+    <section id="faq" class="faq">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-header">
+          <span>Frequently Asked Questions</span>
+          <h2>Frequently Asked Questions</h2>
+
+        </div>
+
+        <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="200">
+          <div class="col-lg-10">
+
+            <div class="accordion accordion-flush" id="faqlist">
+
+              <div class="accordion-item">
+                <h3 class="accordion-header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-content-1">
+                    <i class="bi bi-question-circle question-icon"></i>
+                    한번 감염되면 면역력이 생기나요?
+                  </button>
+                </h3>
+                <div id="faq-content-1" class="accordion-collapse collapse" data-bs-parent="#faqlist">
+                  <div class="accordion-body">
+                    보통 질병에 한번 걸렸다가 회복하면 우리 몸은 어떻게 그 질병과 싸워야 하는지 기억합니다.<br>
+
+                    하지만 그 면역이 얼마나 오래가는지, 얼마나 효율적인지는 알 수 없습니다. 시간이 지나면서 면역력이 줄어들 수도 있죠. 감염됐다 회복하더라도 다시 감염될 수 있습니다.
+                  </div>
+                </div>
+              </div><!-- # Faq item-->
+
+              <div class="accordion-item">
+                <h3 class="accordion-header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-content-2">
+                    <i class="bi bi-question-circle question-icon"></i>
+                    신종 코로나바이러스와 독감의 차이점은 뭔가요?
+                  </button>
+                </h3>
+                <div id="faq-content-2" class="accordion-collapse collapse" data-bs-parent="#faqlist">
+                  <div class="accordion-body">
+                    신종 코로나바이러스와 독감은 증상이 유사해 검사 없이 진단하기가 어렵습니다. 신종 코로나바이러스와 독감은 둘 다 주로 열과 기침을 동반합니다. 다른 점을 보자면, 독감은 종종 근육통, 인후통과 같은 증상을 보이는데 반해 신종 코로나바이러스 환자는 대부분 그렇지 않다는 점입니다. 또 신종 코로나바이러스 환자는 호흡 곤란 증세를 보이기도 합니다.
+                    <br>
+                    따라서 신종 코로나바이러스가 의심되는 사람과 밀접하게 접촉했거나 바이러스가 퍼진 지역을 여행했을 경우는 의사와 상담할 것을 권합니다.
+                  </div>
+                </div>
+              </div><!-- # Faq item-->
+
+              <div class="accordion-item">
+                <h3 class="accordion-header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-content-3">
+                    <i class="bi bi-question-circle question-icon"></i>
+                    신종 코로나바이러스는 성적 행위로 전염될 수 있나요?
+                  </button>
+                </h3>
+                <div id="faq-content-3" class="accordion-collapse collapse" data-bs-parent="#faqlist">
+                  <div class="accordion-body">
+                    현재까지 확인된 주 전염 경로는 기침과 재채기입니다. 아직 성적 행위가 전염에 기여했는지 여부는 밝혀지지 않았습니다.
+                  </div>
+                </div>
+              </div><!-- # Faq item-->
+
+              <div class="accordion-item">
+                <h3 class="accordion-header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-content-4">
+                    <i class="bi bi-question-circle question-icon"></i>
+                    마스크가 바이러스 감염 예방에 도움이 되나요? 또 얼마나 자주 교체해야 하죠?
+                  </button>
+                </h3>
+                <div id="faq-content-4" class="accordion-collapse collapse" data-bs-parent="#faqlist">
+                  <div class="accordion-body">
+                    <i class="bi bi-question-circle question-icon"></i>
+                    안면 마스크를 착용하면 예방에 도움이 된다는 증거는 거의 없습니다. 전문가들은 정기적으로 손을 씻는 등 위생을 관리하는 것이 훨씬 효과적이라고 말합니다.
+                  </div>
+                </div>
+              </div><!-- # Faq item-->
+
+              <div class="accordion-item">
+                <h3 class="accordion-header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-content-5">
+                    <i class="bi bi-question-circle question-icon"></i>
+                    신종 코로나바이러스의 잠복기는 얼마나 되죠?
+                  </button>
+                </h3>
+                <div id="faq-content-5" class="accordion-collapse collapse" data-bs-parent="#faqlist">
+                  <div class="accordion-body">
+                    세계 보건기구(WHO)는 증상이 나타나기 전까지 잠복 기간이 보통 2일에서 10일 사이라고 말합니다.
+                    <br>
+                    확진자에 대한 정보가 더 수집되면 잠복기에 대한 추정치도 더 정확해질 것으로 보입니다.
+                  </div>
+                </div>
+              </div><!-- # Faq item-->
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End Frequently Asked Questions Section -->
+
+  </main><!-- End #main -->
 
 <script src="{{url_for('static', filename='js/index.js')}}"></script>
 {% endblock %}
