@@ -8,17 +8,19 @@
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> 
     <script src="{{url_for('static', filename='js/bootstrap.bundle.min.js')}}"></script>
-</head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+  </head>
 <body>
     <nav class="navbar bg-body-tertiary">
         <div class="container-fluid row justify-content-center py-4" style="background-color: lightgray;">
           <a class="navbar-brand" href="#" style="font-size: 50px; text-align: center;">코로나 현황</a> <br>
           <div style=" text-align: center;">
                 <a class="navbar-brand" href="#" style="font-size: 30px;">국내</a> |
-                <a class="navbar-brand" href="#" style="font-size: 30px;">전 세계</a> |
+                <a class="navbar-brand" href="{{ url_for('world.worldmap') }}" style="font-size: 30px;">전 세계</a> |
                 <a class="navbar-brand" href="#" style="font-size: 30px;">일자별</a> |
                 <a class="navbar-brand" href="#" style="font-size: 30px;">성별</a> |
-                <a class="navbar-brand" href="#" style="font-size: 30px;">나이대별</a>
+                <a class="navbar-brand" href="{{ url_for('chart.age_chart') }}" style="font-size: 30px;">나이대별</a>
           </div>
         </div>
       </nav>
