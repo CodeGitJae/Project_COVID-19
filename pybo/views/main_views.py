@@ -5,6 +5,9 @@ import json
 
 bp = Blueprint("main", __name__, url_prefix="/")
 
+# 크롤링할 데이터 개수
+CRAWLCOUNT = 4
+
 # 뉴스 업로드 시간만 추출해주는 함수(최근 4개)
 # 셀렉터로 업로드 시간만 추출하기 힘듬 (기사별로 위치가 달라서)
 def get_times(news_times):
@@ -26,7 +29,7 @@ def get_times(news_times):
 def get_new_data(data, attr):
   new_data = []
 
-  for i in range(4):
+  for i in range(CRAWLCOUNT):
     if attr:
       new_data.append(data[i][attr])
     else:
@@ -34,6 +37,7 @@ def get_new_data(data, attr):
 
   return new_data
 
+# 코로나 뉴스 크롤링 함수
 def get_news():
   r = requests.get('https://search.naver.com/search.naver?ssc=tab.news.all&where=news&sm=tab_jum&query=%EC%BD%94%EB%A1%9C%EB%82%98')
   soup = BeautifulSoup(r.content, 'html.parser')
@@ -51,7 +55,7 @@ def get_news():
 
   news = []
 
-  for i in range(4):
+  for i in range(CRAWLCOUNT):
     news.append({
       'title' : news_titles[i],
       'content' : news_contents[i],
@@ -62,6 +66,7 @@ def get_news():
 
   return news
 
+# 확진자, 사망자, 전일대비 api 호출 함수
 def get_covid_data():
   API_KEY = 'JUNpM9PuTFDKEhtZXiolYgOaS7bdQBAwc'
   url = f'https://api.corona-19.kr/korea/?serviceKey={API_KEY}'
