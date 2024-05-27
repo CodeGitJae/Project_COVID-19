@@ -7,7 +7,6 @@ bp = Blueprint("chart", __name__, url_prefix="/chart")
 
 # 엑셀 파일 읽어오기
 cov_data = pd.read_excel(os.path.join("pybo", "static", "chart_xlsx", "cov_data.xlsx"))
-print(cov_data)
 
 @bp.route("/age_chart")
 def age_chart():

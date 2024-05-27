@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>국내 연령대별 코로나 확진자/사망자 통계차트</h2>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.3/Chart.min.js"></script>
+
+<h2 style="text-align: center;">국내 연령대별 코로나 확진자/사망자 통계차트</h2>
 <div class="card_body">
     <canvas id="ageChart" width="400" height="200"></canvas>
 </div>
@@ -38,31 +41,40 @@
                 ]
             },
             options: {
-                scales: {
-                    yAxes:[{
-                        id : 'y1',
-                        beginAtZero: true,
-                        position: 'left',
-                        ticks:{
-                           callback: function(value){
-                               return value.toLocaleString() + '명';
-                           }
+            scales: {
+                y1: {
+                    beginAtZero: true,
+                    position: 'left',
+                    title: {
+                        display: true,
+                        text: '확진자', // y축 제목
+                        align: 'end'
+                    },
+                    ticks: {
+                        callback: function(value) {
+                            return value.toLocaleString() + '명';
                         }
-                    },{
-                        id : 'y2',
-                        beginAtZero: true,
-                        position: 'right',
-                        grid:{
-                            drawOnChartArea: false
-                        },
-                        ticks:{
-                            callback: function(value){
-                                return value.toLocaleString() + '명';;
-                            }
+                    }
+                },
+                y2: {
+                    beginAtZero: true,
+                    position: 'right',
+                    title: {
+                        display: true,
+                        text: '사망자', // y축 제목
+                        align: 'end'
+                    },
+                    grid: {
+                        drawOnChartArea: false
+                    },
+                    ticks: {
+                        callback: function(value) {
+                            return value.toLocaleString() + '명';
                         }
-                    }]
+                    }
                 }
             }
+        }
         });
         
     </script>
