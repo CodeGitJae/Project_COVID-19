@@ -3,6 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 import json
 
+
 bp = Blueprint("main", __name__, url_prefix="/")
 
 # 크롤링할 데이터 개수
