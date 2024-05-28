@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, render_template,request, redirect, url_for
+from flask import Flask, Blueprint, render_template,request
 import folium
 import json
 import folium.map
@@ -38,7 +38,6 @@ df1.replace("-", 0, inplace=True)
 df1 = pd.merge(df, dfn, on=["시도명","시군구"])
 filter = df1["시군구"] != "합계"
 df1 = df1[filter]
-print(df1[df1['시도명'] == '경기'])
 
     ## 각 시도명 기준으로 나누어 출력하는 함수 ##
 def citys(df, city_list):
@@ -48,6 +47,7 @@ def citys(df, city_list):
         city_df = df[df1["시도명"]== city]
         city_data_list.append(city_df)
     
+    print([df[df['시도명'].isin(city_list)]])
     return [df[df['시도명'].isin(city_list)]]
 
     ##  누적확진자, 누적 사망자 값 가져오는 함수 ##
@@ -64,20 +64,15 @@ def make_import_data(df1, city, gungu):
     else:
         print("Error: df1 is not a DataFrame")
     
+    print(cofirme)
+    print(death)
     return cofirme, death
 
     ## 아래 부터 라우터 및 map 작업 ##
     
     ## 두번쨰 라우터
-@bp.route("/covid19_inkorea/<selected_city>")
+# @bp.route("/covid19_inkorea/<selected_city>")
 def covid19_inkorea_city(selected_city):
-
-    if selected_city == 'all':
-        return redirect(url_for('citygungu.covid19_inkorea'))
-
-    city_list_all = ["서울", "부산", "대구", "인천", "광주",
-        "대전", "울산", "세종", "경기", "강원",
-        "충북", "충남", "전북", "전남", "경북", "경남", "제주"]
     
     city_list = [selected_city]
 
@@ -98,7 +93,7 @@ def covid19_inkorea_city(selected_city):
             lon = longitude
     ###  map 작업  ###   
     
-    m = folium.Map(location=[lat, lon], zoom_start=10)
+    m = folium.Map(location=[lat, lon], zoom_start=8)
     cluster = MarkerCluster().add_to(m)
 
     file_path = "pybo/static/others/korea-geoData.json"
@@ -106,6 +101,19 @@ def covid19_inkorea_city(selected_city):
 
         geoJson_data = json.load(f)
     folium.GeoJson(geoJson_data).add_to(m)
+
+
+    # for feature in geoJson_data['features']:    # geojson과 위경도 name값 매칭을 위한 for문
+    #     if 'name' in feature['properties']:
+    #         for entry in result:
+    #             if entry['시군구'][:3] in feature['properties']['name'][:3]:
+    #                 feature['properties']['name'] = entry['시군구']
+    #                 print("========")
+    #                 print(feature['properties']['name'])
+    #                 print(entry['시군구'])
+    #                 print("========")
+  
+
 
     ## 중복된 지역에 대한 code추출 --- start
 
@@ -118,6 +126,9 @@ def covid19_inkorea_city(selected_city):
         code = feature['properties']['code']
         arr[code] = feature['properties']['name']
 
+    print("="*100)
+    print(arr)
+
     # 중복된 값을 가진 value를 저장할 딕셔너리
     duplicate_values = {}
 
@@ -129,6 +140,8 @@ def covid19_inkorea_city(selected_city):
         else:
             duplicate_values[value] = [key]
 
+    print("="*100)
+    print(duplicate_values)
     # 정확히 일치하는 중복된 값의 key 추출
     exact_duplicate_pairs = []
 
@@ -142,7 +155,6 @@ def covid19_inkorea_city(selected_city):
         print(f"{value} : {keys}")
         dup_city.append(value)
 
-    # 작업해보니 code는 추출할 필요가 없었음
     ## 중복된 지역에 대한 code추출 --- end
 
     # result에 중복된 시군구는 '시도명 시군구'로 처리
@@ -161,11 +173,13 @@ def covid19_inkorea_city(selected_city):
             feature['properties']['name'] = feature['id'] + ' ' + feature['properties']['name']  
           print(feature['properties']['name'])
 
+
     for r in result:
         if r['시군구'] == '세종':
             r['시군구']='세종시'
 
     data_dict = {entry['시군구'] : entry['확진자'] for entry in result}
+
     folium.Choropleth(
         geo_data=geoJson_data,
         name='chorpleth',
@@ -192,12 +206,13 @@ def covid19_inkorea_city(selected_city):
 
     part_map = m._repr_html_()
     
-    return render_template("inkorea/covid19_inkorea.html", map= part_map, city_list=city_list_all, result=result, selected_city=selected_city)
+    # return render_template("inkorea/covid19_inkorea.html", map= part_map, city_list=city_list, result=result)
 
+covid19_inkorea_city('부산')
 
 ## 첫번째 라우터 시작
 
-@bp.route("/covid19_inkorea")
+# @bp.route("/covid19_inkorea")
 def covid19_inkorea():
     global df1
 
@@ -235,7 +250,7 @@ def covid19_inkorea():
     for feature in geoJson_data['features']:    # geojson과 위경도 name값 매칭을 위한 for문
         if 'name' in feature['properties']:
             for entry in result:
-                if entry['시군구'][:3] in feature['properties']['name'][-3:]:
+                if entry['시군구'] in feature['properties']['name']:
                     feature['properties']['name'] = entry['시군구']
 
     data_dict = {entry['시군구'] : entry['확진자'] for entry in result}
