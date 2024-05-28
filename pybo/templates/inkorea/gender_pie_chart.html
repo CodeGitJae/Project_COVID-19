@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block css %}
+<link rel="stylesheet" href="{{url_for('static', filename='/css/gender_pie_chart.css')}}">
+{% endblock %}
+
+{% block content %}
+
+<main id="main">
+
+  <!-- ======= Breadcrumbs ======= -->
+  <div class="breadcrumbs">
+    <div class="page-header d-flex align-items-center" style="background-image: url('{{url_for('static', filename='assets/img/page-header.jpg')}}');">
+      <div class="container position-relative">
+        <div class="row d-flex justify-content-center">
+          <div class="col-lg-7 text-center">
+            <h2>코로나바이러스감염증-19 전체 확진환자 성별 구분 현황</h2>
+            <p>코로나 성별 감염 비율을 나타낸 원형 데이터표</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><!-- End Breadcrumbs -->
+
+  <!-- 페이지에 출력할 내용 작업 -->
+  <div class="alert alert-danger role=alert">
+  - ′23.8.31일 0시 기준, 질병관리청 질병보건통합관리시스템에 신고된 코로나19 확진환자
+  </div>
+  <div class="chart-container">
+    <h2>국내 남자/여자(성별) 감염 차트</h2>
+    <canvas id="genderChart"></canvas>
+  </div>
+
+</main> <!-- End Main -->
+
+{% endblock %}
+
+{% block script %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+  <script> 
+    let pieChartData = {{pie_chart | tojson}};
+  </script>
+  <script src="{{ url_for('static', filename='js/gender_pie_chart.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,13 @@
+/* 차트 사이즈 크기 제한 두기 */
+.chart-container {
+    position: relative;
+    max-width: 600px;
+    max-height: 600px; 
+    margin: 100px auto; 
+    text-align: center;
+}
+
+canvas {
+    width: 100%; 
+    height: 100%; 
+}
