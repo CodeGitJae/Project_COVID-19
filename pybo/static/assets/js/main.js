@@ -46,6 +46,22 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /**
+   * nav menu active
+   */
+  const navMenus = document.querySelectorAll('#navbar a');
+  const uri = window.location.pathname;
+  
+  navMenus.forEach((menu) => {
+    if(menu.getAttribute('href') === uri) {
+      menu.classList.add('active');
+      menu.classList.add('fw-bolder');
+    } else {
+      menu.classList.remove('active');
+      menu.classList.remove('fw-bolder');
+    }
+  })
+
+  /**
    * Mobile nav toggle
    */
   const mobileNavShow = document.querySelector('.mobile-nav-show');
