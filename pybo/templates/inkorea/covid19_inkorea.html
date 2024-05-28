@@ -89,11 +89,14 @@
             <label for="select_city">분류[시/도]:</label>
             <select id="select_city">
                     <option value="all">전체</option>
-                {% for citys in city_list %}    
-                    <option value="{{citys}}">{{citys}}</option>
+                {% for citys in city_list %} 
+                    {% if citys == selected_city %}   
+                        <option value="{{citys}}" selected>{{citys}}</option>
+                    {% else %}
+                        <option value="{{citys}}">{{citys}}</option>
+                    {% endif %}
                 {% endfor %}
             </select>
-            <a href="{{url_for('citygungu.covid19_inkorea')}}">돌아가기</a>
             <table id="dtable" class="table table-striped" border="1" cellspacing="0" width="100%">
                 <thead>
                 <tr>
@@ -125,7 +128,6 @@
 
 {% block script %}
   <!-- js 넣을거 있으면 여기에 넣으면 됨 -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
 <script type="text/javascript">
     $(document).ready(function(){
         $("#select_city").change(function(){
