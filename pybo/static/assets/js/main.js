@@ -52,7 +52,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const uri = window.location.pathname;
   
   navMenus.forEach((menu) => {
-    if(menu.getAttribute('href') === uri) {
+    if(uri === menu.getAttribute('href')) {
+      menu.classList.add('active');
+      menu.classList.add('fw-bolder');
+    } else if(menu.getAttribute('href') !== '/' && uri.includes(menu.getAttribute('href'))) {
       menu.classList.add('active');
       menu.classList.add('fw-bolder');
     } else {
