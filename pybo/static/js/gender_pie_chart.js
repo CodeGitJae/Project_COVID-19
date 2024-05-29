@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function() {
             data: Object.values(pieChartData),
             backgroundColor: ['#37a3eb', '#FF6384'],
             borderWidth: 1,
+            hoverOffset: 35,
             hoverBackgroundColor:['#008ae6','#ff335f'],
         }]
     };
@@ -15,9 +16,10 @@ document.addEventListener("DOMContentLoaded", function() {
     var options = {
         responsive: true,
         maintainAspectRatio: false,
-        hover: {
-            mode: 'nearest',
-            intersect: true
+        layout:{
+            padding:{
+                bottom: 15
+            },
         },
         plugins: {
             legend: {

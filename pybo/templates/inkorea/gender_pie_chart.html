@@ -13,9 +13,9 @@
     <div class="page-header d-flex align-items-center" style="background-image: url('{{url_for('static', filename='assets/img/page-header.jpg')}}');">
       <div class="container position-relative">
         <div class="row d-flex justify-content-center">
-          <div class="col-lg-7 text-center">
-            <h2>코로나바이러스감염증-19 전체 확진환자 성별 구분 현황</h2>
-            <p>코로나 성별 감염 비율을 나타낸 원형 데이터표</p>
+          <div class="col-lg-8 text-center">
+            <h2>국내 코로나(Covid-19) 확진자 남/여(성) 비율 현황표</h2>
+            <p>코로나 성별 감염 비율을 원형 데이터표 나타냈습니다. </p>
           </div>
         </div>
       </div>
@@ -28,6 +28,13 @@
   </div>
   <div class="chart-container">
     <h2>국내 남자/여자(성별) 감염 차트</h2>
+    {% for key, val in sumTotal_gender.items() %}
+        {% if key == '총 확진자' %}
+            {% set result_data = val %}
+          <h5>총 확진자: {{ result_data['전체'] }}명</h5>
+          <h6>질병관리청 ′23.8.31일 0시 집계 기준</h6>
+        {% endif%}
+    {% endfor %}
     <canvas id="genderChart"></canvas>
   </div>
 
@@ -36,7 +43,7 @@
 {% endblock %}
 
 {% block script %}
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
   <script> 
     let pieChartData = {{pie_chart | tojson}};
   </script>
