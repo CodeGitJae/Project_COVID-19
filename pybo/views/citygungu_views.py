@@ -38,7 +38,7 @@ df1.replace("-", 0, inplace=True)
 df1 = pd.merge(df, dfn, on=["시도명","시군구"])
 filter = df1["시군구"] != "합계"
 df1 = df1[filter]
-print(df1[df1['시도명'] == '경기'])
+# print(df1[df1['시도명'] == '경기'])
 
     ## 각 시도명 기준으로 나누어 출력하는 함수 ##
 def citys(df, city_list):
@@ -48,7 +48,7 @@ def citys(df, city_list):
         city_df = df[df1["시도명"]== city]
         city_data_list.append(city_df)
     
-    return [df[df['시도명'].isin(city_list)]]
+    return city_data_list
 
     ##  누적확진자, 누적 사망자 값 가져오는 함수 ##
 def make_import_data(df1, city, gungu):
@@ -135,11 +135,11 @@ def covid19_inkorea_city(selected_city):
     for value, keys in duplicate_values.items():
       if len(keys) > 1 and len(set(arr[key] for key in keys)) == 1:
           exact_duplicate_pairs.append((value, keys))
-
+          
     dup_city = []
-    print("정확히 일치하는 중복된 값의 value와 keys:")
+    #print("정확히 일치하는 중복된 값의 value와 keys:")
     for value, keys in exact_duplicate_pairs:
-        print(f"{value} : {keys}")
+        #print(f"{value} : {keys}")
         dup_city.append(value)
 
     # 작업해보니 code는 추출할 필요가 없었음
@@ -159,7 +159,7 @@ def covid19_inkorea_city(selected_city):
             feature['properties']['name'] = feature['id'][:feature['id'].find(' ')] + ' ' + feature['properties']['name']
           else:
             feature['properties']['name'] = feature['id'] + ' ' + feature['properties']['name']  
-          print(feature['properties']['name'])
+          #print(feature['properties']['name'])
 
     for r in result:
         if r['시군구'] == '세종':
@@ -235,7 +235,7 @@ def covid19_inkorea():
     for feature in geoJson_data['features']:    # geojson과 위경도 name값 매칭을 위한 for문
         if 'name' in feature['properties']:
             for entry in result:
-                if entry['시군구'][:3] in feature['properties']['name'][-3:]:
+                if entry['시군구'] in feature['properties']['name']:
                     feature['properties']['name'] = entry['시군구']
 
     data_dict = {entry['시군구'] : entry['확진자'] for entry in result}

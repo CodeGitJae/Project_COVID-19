@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block css %}
+<link rel="stylesheet" href="{{url_for('static', filename='/css/gender_pie_chart.css')}}">
+{% endblock %}
+
+{% block content %}
+
+<main id="main">
+
+  <!-- ======= Breadcrumbs ======= -->
+  <div class="breadcrumbs">
+    <div class="page-header d-flex align-items-center" style="background-image: url('{{url_for('static', filename='assets/img/page-header.jpg')}}');">
+      <div class="container position-relative">
+        <div class="row d-flex justify-content-center">
+          <div class="col-lg-8 text-center">
+            <h2>국내 코로나(Covid-19) 확진자 남/여(성) 비율 현황표</h2>
+            <p>코로나 성별 감염 비율을 원형 데이터표 나타냈습니다. </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><!-- End Breadcrumbs -->
+
+  <!-- 페이지에 출력할 내용 작업 -->
+  <div class="alert alert-danger role=alert" id="subinform">
+  - ′23.8.31일 0시 기준, 질병관리청 질병보건통합관리시스템에 신고된 코로나19 확진환자
+  </div>
+
+  <div class="chart-container">
+    <h2>국내 남자/여자(성별) 감염 차트</h2>
+    
+    <div class="datainform1">
+      {% for key, val in sumTotal_gender.items() %}
+          {% if key == '총 확진자' %}
+              {% set result_data = val %}
+            <h5 id="total_sum">총 확진자: {{ result_data['전체'] }}명</h5>
+            <h6>질병관리청 ′23.8.31일 0시 집계 기준</h6>
+          {% endif%}
+      {% endfor %}
+   </div>
+    
+   <canvas id="genderChart" width=400 height=350></canvas>
+    
+    <div class="datainform2">
+      {% for key, val in sumTotal_gender.items() %}
+          {% if key == '남자' %}
+              {% set result_man = val %}
+              <h5> 확진자(남자): 총 {{ result_man['전체'] }}명 |
+          {% endif%}
+          
+          {% if key == '여자' %}
+              {% set result_woman = val %}
+              확진자(여자): 총 {{ result_woman['전체'] }}명</h5>  
+          {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+
+</main> <!-- End Main -->
+
+{% endblock %}
+
+{% block script %}
+
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.0.0/chartjs-plugin-datalabels.min.js" 
+  integrity="sha512-R/QOHLpV1Ggq22vfDAWYOaMd5RopHrJNMxi8/lJu8Oihwi4Ho4BRFeiMiCefn9rasajKjnx9/fTQ/xkWnkDACg==" 
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <script> 
+    let pieChartData = {{pie_chart | tojson}};
+  </script>
+  <script src="{{ url_for('static', filename='js/gender_pie_chart.js') }}"></script>
+{% endblock %}

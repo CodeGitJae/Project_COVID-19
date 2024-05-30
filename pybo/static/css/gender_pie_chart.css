@@ -1,0 +1,33 @@
+/* 차트 사이즈 크기 제한 두기 */
+.chart-container {
+    position: relative;
+    max-width: 600px;
+    max-height: 600px; 
+    margin: 40px auto 180px auto; 
+    text-align: center;
+}
+
+canvas {
+    width: 100%; 
+    height: 100%;
+}
+h6{
+    color: darkgray;
+}
+#total_sum{
+    color: blue;
+}
+.datainform1{
+    margin-bottom: 15px;
+}
+
+.datainform2{
+    margin-top: 20px;;
+}
+#subinform{
+    width: 40%;
+    text-align: center;
+    margin: 20px auto;
+    padding: 10px;
+
+}
