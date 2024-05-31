@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block css %}
-  <!-- css 넣을거 있으면 넣으면됨 -->
+<link rel="stylesheet" href="{{url_for('static', filename='/css/age_chart.css')}}">
 {% endblock %}
 
 {% block content %}
@@ -14,8 +14,8 @@
         <div class="container position-relative">
           <div class="row d-flex justify-content-center">
             <div class="col-lg-6 text-center">
-              <h2>국내 연령대별 코로나 확진자/사망자 통계차트</h2>
-              <p>페이지 설명들어가는 부분</p>
+              <h2>국내 연령대별 누척차트</h2>
+              <p>국내코로나19 확진자들을 연령대별로 분류하여 시각화한 누척 차트를 제공합니다.</p>
             </div>
           </div>
         </div>
@@ -23,7 +23,7 @@
     </div><!-- End Breadcrumbs -->
 
     <div class="card_body">
-        <canvas id="ageChart" width="400" height="200"></canvas>
+        <canvas id="ageChart"></canvas>
     </div>
 </main>
 
@@ -67,6 +67,8 @@
             ]
         },
         options: {
+            responsive: true,          // CSS 부모 컨테이너에 따라 자동으로 크기를 조정
+            maintainAspectRatio: false,    // 차트 가로 세로 비율을 부모의 요소 크기에 맞게 조정
         scales: {
             y1: {
                 beginAtZero: true,
@@ -80,28 +82,28 @@
                     callback: function(value) {
                         return value.toLocaleString() + '명';
                     }
-                }
-            },
-            y2: {
-                beginAtZero: true,
-                position: 'right',
-                title: {
-                    display: true,
-                    text: '사망자', // y축 제목
-                    align: 'end'
                 },
-                grid: {
-                    drawOnChartArea: false
-                },
-                ticks: {
-                    callback: function(value) {
-                        return value.toLocaleString() + '명';
+                y2: {
+                    beginAtZero: true,
+                    position: 'right',
+                    title: {
+                        display: true,
+                        text: '사망자', // y축 제목
+                        align: 'end'
+                    },
+                    grid: {
+                        drawOnChartArea: false
+                    },
+                    ticks: {
+                        callback: function(value) {
+                            return value.toLocaleString() + '명';
+                        }
                     }
                 }
             }
         }
     }
-    });
+});
     
   </script>
 {% endblock %}

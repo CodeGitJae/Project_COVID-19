@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block css %}
+  <!-- css 넣을거 있으면 넣으면됨 -->
+  <link rel="stylesheet" href="{{url_for('static', filename='/css/covid19_citys_confirmed_death.css')}}">
+{% endblock %}
+
+{% block content %}
+
+<main id="main">
+ 
+  <!-- ======= Breadcrumbs ======= -->
+  <div class="breadcrumbs">
+    <div class="page-header d-flex align-items-center" style="background-image: url('{{url_for('static', filename='assets/img/page-header.jpg')}}');">
+      <div class="container position-relative">
+        <div class="row d-flex justify-content-center">
+          <div class="col-lg-8 text-center">
+            <h2>코로나19 국내(해외유입 포함) <br> 
+                확진자 및 사망자 발생 현황차트</h2>
+            <p class="mt-4">국내 각 시도별 확진자 및 사망자 일자별 데이터 시각화 자료 입니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><!-- End Breadcrumbs -->
+
+  <!-- 페이지에 출력할 내용 작업 -->
+  <div class="CssBody">
+    <canvas id="SouthKoreaChartofCitys"></canvas>
+  </div>
+  <div style="margin-bottom: 35px; text-align: center;">
+    <button type="button" class="btn btn-primary" id="confirmedBtn">확진자</button>
+    <button type="button" class="btn btn-primary" id="deathBtn">사망자</button>
+    <button type="button" class="btn btn-primary" id="resetBtn">Reset</button>
+  </div>
+
+</main> <!-- End Main -->
+
+{% endblock %}
+
+{% block script %}
+  <!-- js 넣을거 있으면 여기에 넣으면 됨 -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- 핀치 제스처를 위해 hammer.js 추가-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js" integrity="sha512-UXumZrZNiOwnTcZSHLOfcTs0aos2MzBWHXOHOuB0J/R44QB0dwY5JgfbvljXcklVf65Gc4El6RjZ+lnwd2az2g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <!--line chart zoom plugin 추가-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/1.0.1/chartjs-plugin-zoom.min.js" 
+  integrity="sha512-b+q5md1qwYUeYsuOBx+E8MzhsDSZeoE80dPP1VCw9k/KA9LORQmaH3RuXjlpu3u1rfUwh7s6SHthZM3sUGzCkA==" 
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  
+  <script src="{{ url_for('static', filename='js/covid19_citys_confirmed_death.js') }}"></script>
+  <script>
+    const lineforConfirmed = {{ confirmedCase | tojson }};
+    const lineforDeath = {{ deathCase | tojson }};
+    //console.log(lineforConfirmed)
+    // console.log(lineforDeath)
+  </script>
+
+{% endblock %}
