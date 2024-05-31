@@ -32,6 +32,7 @@ $(document).ready(() => {
 
   $('.covid-search').on('click', (e)=> { 
     e.preventDefault();
-    alert('준비중 입니다.');
+    s = $('#search-city').val();
+    location.href= '/citygungu/covid19_inkorea/' + s;
   })
 })

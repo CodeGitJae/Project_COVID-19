@@ -106,7 +106,7 @@ def covid19_inkorea_city(selected_city):
 
     # 정확히 일치하는 중복된 값의 key 추출
     exact_duplicate_pairs = []
-    print(duplicate_values)
+    
     for value, keys in duplicate_values.items():
       if len(keys) > 1 and len(set(arr[key] for key in keys)) == 1:
           exact_duplicate_pairs.append((value, keys))
