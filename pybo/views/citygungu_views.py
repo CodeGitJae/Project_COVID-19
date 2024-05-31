@@ -19,7 +19,6 @@ dfn.loc[sejongfilter, "level"]= dfn.loc[sejongfilter, "level"].replace(0, 1)
 filter2= dfn["level"]==1
 dfn = dfn[filter2]
 dfn = dfn.drop_duplicates(['시도명','시군구'])
-# print(dfn)
 
 dfn["시도명"].replace({"서울특별시":"서울", "부산광역시":"부산","대구광역시":"대구",
              "인천광역시":"인천","광주광역시":"광주","대전광역시":"대전",
@@ -36,7 +35,6 @@ df1.replace("-", 0, inplace=True)
 df1 = pd.merge(df, dfn, on=["시도명","시군구"])
 filter = df1["시군구"] != "합계"
 df1 = df1[filter]
-# print(df1)
 
 #################↑↑↑↑↑↑   국내 시군구 코로나 발생현황 데이터 가공 / 두 데이터 프레임 Merge 진행 ↑↑↑↑↑↑↑↑↑↑↑↑
 def citys(df, city_list):
@@ -72,9 +70,7 @@ def make_import_data(df1, city, gungu):
 
 @bp.route("/covid19_inkorea/<selected_city>")
 def covid19_inkorea_city(selected_city):
-    print("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::")
-    print(selected_city)
-    print("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::")
+
     city_list = [selected_city]
 
 #   selected_city = request.args.get("selected_city")
