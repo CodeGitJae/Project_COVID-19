@@ -66,7 +66,7 @@
           <li><a href="/" class="active">Home</a></li>
           <li><a href="{{url_for('citygungu.covid19_inkorea')}}">국내</a></li>
           <li><a href="{{ url_for('world.covid19_world') }}">전세계</a></li>
-          <li><a href="#">일자별</a></li>
+          <li><a href="{{ url_for('chart.total_inkorea_chart') }}">일자별</a></li>
           <li><a href="{{ url_for('chart.gender_chart')}}">성별</a></li>
           <li><a href="{{ url_for('chart.age_chart') }}">나이대별</a></li>
 

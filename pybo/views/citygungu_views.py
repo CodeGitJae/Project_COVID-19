@@ -3,40 +3,18 @@ import folium
 import json
 import folium.map
 import pandas as pd
-import numpy as np
+import os
 from folium.plugins import MarkerCluster
+from pybo.data_processing import load_data_first
 
 bp = Blueprint("citygungu", __name__, url_prefix="/citygungu")
 
-        ## 전국 시군구 위도 데이터 가공##
-df= pd.read_csv('pybo/static/others/korea_latitude_longitude.csv', encoding="cp949")
-dfn = df.copy()
-dfn.drop(["bjd_cd", "center_point", "sd_cd","sgg_cd","emd_cd","bjd_nm"], axis=1, inplace=True)
-dfn.rename(columns={"center_long":"경도", "center_lati":"위도", "sd_nm":"시도명","sgg_nm":"시군구"}, inplace=True)
-dfn.drop(dfn.columns[5:], axis=1, inplace=True)
-sejongfilter = dfn["시도명"]=="세종특별자치시"
-dfn.loc[sejongfilter, "시군구"]= dfn.loc[sejongfilter, "시군구"].replace(np.nan, "세종")
-dfn.loc[sejongfilter, "level"]= dfn.loc[sejongfilter, "level"].replace(0, 1)
-filter2= dfn["level"]==1
-dfn = dfn[filter2]
-dfn = dfn.drop_duplicates(['시도명','시군구'])
+## 데이터 path 설정 시작
+korea_geoData_path = os.path.join("pybo", "static", "others", "korea-geoData.json")
+covid19_img_path = os.path.join("pybo", "static", "others", "covid19img.png")
 
-dfn["시도명"].replace({"서울특별시":"서울", "부산광역시":"부산","대구광역시":"대구",
-             "인천광역시":"인천","광주광역시":"광주","대전광역시":"대전",
-             "울산광역시":"울산","세종특별자치시":"세종", "경기도":"경기",
-             "강원도":"강원","충청북도":"충북","충청남도":"충남","전라북도":"전북",
-             "전라남도":"전남","경상북도":"경북","경상남도":"경남","제주특별자치도":"제주"}, inplace=True)
-
-    ##  국내 시군구 코로나 발생현황 데이터 가공 ##
-        ##   두 데이터 프레임 Merge 진행 ##
-df = pd.read_excel('pybo\static\others\코로나19 확진자 발생현황.xlsx', sheet_name=6, skiprows=6)
-df1 = df.copy()
-df1.drop(0, axis=0, inplace=True)
-df1.replace("-", 0, inplace=True)
-
-df1 = pd.merge(df, dfn, on=["시도명","시군구"])
-filter = df1["시군구"] != "합계"
-df1 = df1[filter]
+## data_processing.py 함수 선언
+df1 = load_data_first()
 
     ## 각 시도명 기준으로 나누어 출력하는 함수 ##
 def citys(df, city_list):
@@ -96,11 +74,10 @@ def covid19_inkorea_city(selected_city):
             lon = longitude
     ###  map 작업  ###   
     
-    m = folium.Map(location=[lat, lon], zoom_start=10)
+    m = folium.Map(location=[lat, lon], zoom_start=9)
     cluster = MarkerCluster().add_to(m)
 
-    file_path = "pybo/static/others/korea-geoData.json"
-    with open(file_path, 'rt', encoding='utf-8') as f:
+    with open(korea_geoData_path, 'rt', encoding='utf-8') as f:
 
         geoJson_data = json.load(f)
     folium.GeoJson(geoJson_data).add_to(m)
@@ -129,7 +106,7 @@ def covid19_inkorea_city(selected_city):
 
     # 정확히 일치하는 중복된 값의 key 추출
     exact_duplicate_pairs = []
-
+    print(duplicate_values)
     for value, keys in duplicate_values.items():
       if len(keys) > 1 and len(set(arr[key] for key in keys)) == 1:
           exact_duplicate_pairs.append((value, keys))
@@ -173,8 +150,6 @@ def covid19_inkorea_city(selected_city):
         fill_color="Spectral_r"
     ).add_to(m)
 
-    img = 'pybo/static/others/covid19img.png'
-
     for entry in result:
         latitude = entry["위도"]
         longitude = entry["경도"]
@@ -183,7 +158,7 @@ def covid19_inkorea_city(selected_city):
         popup = folium.Popup(iframe, min_width=170, max_width=200)
         folium.Marker(
             location=[latitude, longitude],
-            icon=folium.CustomIcon(icon_size=(20,20), icon_anchor=(5,5), icon_image=img),
+            icon=folium.CustomIcon(icon_size=(20,20), icon_anchor=(5,5), icon_image=covid19_img_path),
             popup=popup,
             tooltip="Please Click"
         ).add_to(cluster)
@@ -223,8 +198,7 @@ def covid19_inkorea():
     m = folium.Map(location=[36.5, 127.5], zoom_start=7)
     cluster = MarkerCluster().add_to(m)
 
-    file_path = "pybo/static/others/korea-geoData.json"
-    with open(file_path, 'rt', encoding='utf-8') as f:
+    with open(korea_geoData_path, 'rt', encoding='utf-8') as f:
 
         geoJson_data = json.load(f)
     folium.GeoJson(geoJson_data).add_to(m)
@@ -246,7 +220,6 @@ def covid19_inkorea():
         fill_color="Spectral_r"
     ).add_to(m)
 
-    img = 'pybo/static/others/covid19img.png'
 
     for entry in result:
         latitude = entry["위도"]
@@ -256,7 +229,7 @@ def covid19_inkorea():
         popup = folium.Popup(iframe, min_width=170, max_width=200)
         folium.Marker(
             location=[latitude, longitude],
-            icon=folium.CustomIcon(icon_size=(20,20), icon_anchor=(5,5), icon_image=img),
+            icon=folium.CustomIcon(icon_size=(20,20), icon_anchor=(5,5), icon_image=covid19_img_path),
             popup=popup,
             tooltip="Please Click"
         ).add_to(cluster)
