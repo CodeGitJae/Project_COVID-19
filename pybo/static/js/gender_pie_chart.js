@@ -11,10 +11,10 @@ document.addEventListener("DOMContentLoaded", function() {
             hoverBackgroundColor:['#008ae6','#ff335f'],
         }]
     };
-
+    console.log(data)
     var options = {
-        responsive: true,
-        maintainAspectRatio: false,
+        responsive: true,                // CSS 부모 컨테이너에 따라 자동으로 크기를 조정
+        maintainAspectRatio: false,      // 차트 가로 세로 비율을 부모의 요소 크기에 맞게 조정
         layout:{
             padding:{
                 bottom: 15
