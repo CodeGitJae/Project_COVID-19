@@ -110,10 +110,6 @@ def covid19_world():
     # 지도에 추가된 레이어들을 제어할 수 있는 컨트롤 추가
     folium.LayerControl().add_to(m)
 
-    # Folium 지도를 HTML 파일로 저장
-    m.save('covid19_world_map.html')
-
-
     # 마커 추가
     for idx in result:
         row = mak1[mak1['국가코드'] == idx['국가코드']]

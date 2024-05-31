@@ -81,23 +81,23 @@
                 ticks: {
                     callback: function(value) {
                         return value.toLocaleString() + '명';
+                        }
                     }
                 },
-                y2: {
-                    beginAtZero: true,
-                    position: 'right',
-                    title: {
-                        display: true,
-                        text: '사망자', // y축 제목
-                        align: 'end'
-                    },
-                    grid: {
-                        drawOnChartArea: false
-                    },
-                    ticks: {
-                        callback: function(value) {
-                            return value.toLocaleString() + '명';
-                        }
+            y2: {
+                beginAtZero: true,
+                position: 'right',
+                title: {
+                    display: true,
+                    text: '사망자', // y축 제목
+                    align: 'end'
+                },
+                grid: {
+                    drawOnChartArea: false
+                },
+                ticks: {
+                    callback: function(value) {
+                        return value.toLocaleString() + '명';
                     }
                 }
             }
