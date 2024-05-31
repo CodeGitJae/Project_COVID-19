@@ -8,15 +8,22 @@ import json
 
 bp = Blueprint("world", __name__, url_prefix="/world")
 
-# CSV 데이터 로드(아나콘다 주피터 사용하여, 날짜별 데이터 가공 필요)
+# 전세계 코로나현황.CSV 데이터 로드
 wd = pd.read_csv('pybo/static/world_data/WHO_COVID19_globaldata.csv', encoding='cp949')
 wd.rename(columns={"Date_reported":"날짜", "Country_code":"국가코드", "Country":"국가명","WHO_region":"지역명",
                    "New_cases":"신규확진자(명)","Cumulative_cases":"누적확진자(명)",
                    "New_deaths":"신규사망자(명)","Cumulative_deaths":"누적사망자(명)"}, inplace=True)
 wd1 = wd.drop_duplicates(["국가명"],keep="last")
 # wd1.drop(wd1.columns[ [4,6,8] ], axis="columns", inplace=True)
+# 국가코드 오류 수정
+wd1.loc[wd1['국가명']=='Namibia','국가코드'] = 'NA'
 
 
+# 국가별 수도 좌표.CSV 데이터 로드
+mak = pd.read_csv('pybo/static/world_data/worldcities.csv', encoding='cp949')
+mak.rename(columns={"country":"국가명","city":"도시", "lat":"위도","lng":"경도", "iso":"국가코드","capital":"캐피탈"}, inplace=True)
+mak1 = mak[mak['캐피탈'].isin(['primary'])]
+mak1 = mak1.drop_duplicates(["국가명"],keep="last")
 
 # 국가별 데이터 출력
 def country(wd1, country_list):
@@ -54,7 +61,7 @@ def covid_import_data(wd1, country, country_code):
 def covid19_world():
 
     # 지도생성
-    m = folium.Map(location=[36.5, 127.5], zoom_start=2.5, max_bounds=True)
+    m = folium.Map(location=[34, 120], zoom_start=3,max_bounds=True, min_zoom=1, max_zoom=10)
     cluster = MarkerCluster().add_to(m)
 
     # GeoJSON 파일경로
@@ -109,9 +116,10 @@ def covid19_world():
 
     # 마커 추가
     for idx in result:
-        latitude = idx["위도"]
-        longitude = idx["경도"]
-        if latitude and longitude:
+        row = mak1[mak1['국가코드'] == idx['국가코드']]
+        if not row.empty:
+            latitude = row.iloc[0]["위도"]
+            longitude = row.iloc[0]["경도"]
             iframe = folium.IFrame(f'{idx["국가명"]} <br>확진자: {idx["누적확진자(명)"]}<br>사망자: {idx["누적사망자(명)"]}')
             popup = folium.Popup(iframe, min_width=150, max_width=200)
             folium.Marker(

@@ -3,6 +3,7 @@
 {% block css %}
   <!-- Leaflet CSS File -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+
 {% endblock %}
 
 {% block content %}
@@ -24,10 +25,13 @@
   </div><!-- End Breadcrumbs -->
 
   <!-- 페이지에 출력할 내용 작업 -->
-  <div id="world_map"></div>
-  <div>
-    {{ map|safe }}
+  <div id="world_map" style="width: 90%; margin: 0 auto; margin-top: 30px; margin-bottom: 30px;">
+    <div style="height: 90%;">
+      {{ map|safe }}
+    </div>
   </div>
+
+
 </main>
 {% endblock %}
 
