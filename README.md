@@ -25,7 +25,7 @@
 * 국내 GeoData 출처[https://gist.github.com/JHLeeeMe/18d872b0f972782608adf500b3e82579](http://)
 
 ## 버전 및 업데이트 정보 
-chart.js 버전: https://cdn.jsdelivr.net/npm/chart.js / 4.4.3
-chartjs-plugin-datalabels 버전: 2.0.0
-chartjs-plugin-zoom 버전: 1.0.1
-hammer.js 버전: 2.0.8
+* chart.js 버전: https://cdn.jsdelivr.net/npm/chart.js / 4.4.3
+* chartjs-plugin-datalabels 버전: 2.0.0
+* chartjs-plugin-zoom 버전: 1.0.1
+* hammer.js 버전: 2.0.8
