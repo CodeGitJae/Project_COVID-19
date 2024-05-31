@@ -20,7 +20,6 @@ dfn.loc[sejongfilter, "level"]= dfn.loc[sejongfilter, "level"].replace(0, 1)
 filter2= dfn["level"]==1
 dfn = dfn[filter2]
 dfn = dfn.drop_duplicates(['시도명','시군구'])
-# print(dfn)
 
 dfn["시도명"].replace({"서울특별시":"서울", "부산광역시":"부산","대구광역시":"대구",
              "인천광역시":"인천","광주광역시":"광주","대전광역시":"대전",
@@ -38,7 +37,6 @@ df1.replace("-", 0, inplace=True)
 df1 = pd.merge(df, dfn, on=["시도명","시군구"])
 filter = df1["시군구"] != "합계"
 df1 = df1[filter]
-# print(df1[df1['시도명'] == '경기'])
 
     ## 각 시도명 기준으로 나누어 출력하는 함수 ##
 def citys(df, city_list):

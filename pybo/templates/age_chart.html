@@ -1,7 +1,23 @@
 {% extends 'base.html' %}
 
 {% block css %}
-  <!-- css 넣을거 있으면 넣으면됨 -->
+    <style>
+        .card_body {
+            position: relative;
+            width: 80%;
+            height: 1000px; /* 부모 요소의 높이를 설정 */
+            background-color: lightgrey; /* 배경색을 설정하여 확인할 수 있도록 함 */
+        }
+
+        #ageChart {
+            position: absolute;
+            top: 100px;
+            right: 100px;
+            bottom: 100px;
+            left: 100px;
+            background-color: white; /* 차트 요소의 배경색 */
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
@@ -14,8 +30,8 @@
         <div class="container position-relative">
           <div class="row d-flex justify-content-center">
             <div class="col-lg-6 text-center">
-              <h2>국내 연령대별 코로나 확진자/사망자 통계차트</h2>
-              <p>페이지 설명들어가는 부분</p>
+              <h2>국내 연령대별 누척차트</h2>
+              <p>국내코로나19 확진자들을 연령대별로 분류하여 시각화한 누척 차트를 제공합니다.</p>
             </div>
           </div>
         </div>
@@ -67,39 +83,41 @@
             ]
         },
         options: {
-        scales: {
-            y1: {
-                beginAtZero: true,
-                position: 'left',
-                title: {
-                    display: true,
-                    text: '확진자', // y축 제목
-                    align: 'end'
-                },
-                ticks: {
-                    callback: function(value) {
-                        return value.toLocaleString() + '명';
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y1: {
+                    beginAtZero: true,
+                    position: 'left',
+                    title: {
+                        display: true,
+                        text: '확진자', // y축 제목
+                        align: 'end'
+                    },
+                    ticks: {
+                        callback: function(value) {
+                            return value.toLocaleString() + '명';
+                        }
                     }
-                }
-            },
-            y2: {
-                beginAtZero: true,
-                position: 'right',
-                title: {
-                    display: true,
-                    text: '사망자', // y축 제목
-                    align: 'end'
                 },
-                grid: {
-                    drawOnChartArea: false
-                },
-                ticks: {
-                    callback: function(value) {
-                        return value.toLocaleString() + '명';
+                y2: {
+                    beginAtZero: true,
+                    position: 'right',
+                    title: {
+                        display: true,
+                        text: '사망자', // y축 제목
+                        align: 'end'
+                    },
+                    grid: {
+                        drawOnChartArea: false
+                    },
+                    ticks: {
+                        callback: function(value) {
+                            return value.toLocaleString() + '명';
+                        }
                     }
                 }
             }
-        }
     }
     });
     
