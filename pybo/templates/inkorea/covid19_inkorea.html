@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+
+{% block css %}
+  <!-- css 넣을거 있으면 넣으면됨 -->
+   <link rel="stylesheet" href="{{url_for('static', filename='/css/covid19_inkorea.css')}}">
+{% endblock %}
+
+{% block content %}
+
+<main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <div class="breadcrumbs">
+      <div class="page-header d-flex align-items-center" style="background-image: url('{{url_for('static', filename='assets/img/page-header.jpg')}}');">
+        <div class="container position-relative">
+          <div class="row d-flex justify-content-center">
+            <div class="col-lg-6 text-center">
+              <h2>국내 코로나(Covid-19) 확진자 및 사망자 현황</h2>
+               <p class="mt-4">국내 누적 확진및 사망자에 대한 분포도 시각화 자료 입니다.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- End Breadcrumbs -->
+
+    <div class="container">
+        <div class="alert alert-danger role=alert mt-3">
+            ′23.8.31일 0시 기준<br> 
+            질병관리청 질병보건통합관리시스템에 신고된 코로나19 확진환자 및 사망자<br> 
+            (사망자 집계는 환자발생 신고지역 기준)<br> 
+            (발생률) '20.1월 이후 시군구별 누적 확진자수 / 시군구별 별 인구수<br> 
+            (‘22.12월 행정안전부 주민등록인구현황 기준)<br> 
+            (사망률) '20.1월 이후 시군구별 누적 사망자수 / 시군구별 인구수<br>
+            (‘22.12월 행정안전부 주민등록인구현황 기준)<br>
+            23.7.1. 군위군 행정구역이 경상북도에서 대구광역시로 편입됨에 따라,<br>
+            해당일자부터 확진자 및 사망자 집계의 신고시도가 변경됨.<br>
+            단, 발생률의 경우 기존 경상북도 기준으로 산출
+        </div>
+        <div class="map-container"> 
+                {{map|safe}}
+        </div>
+        <div class="table-container height_scroll">   
+        <hr>   
+            <label for="select_city">분류[시/도]:</label>
+            <select id="select_city">
+                    <option value="all">전체</option>
+                {% for citys in city_list %} 
+                    {% if citys == selected_city %}   
+                        <option value="{{citys}}" selected>{{citys}}</option>
+                    {% else %}
+                        <option value="{{citys}}">{{citys}}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+            <table id="dtable" class="table table-striped" border="1" cellspacing="0" width="100%">
+                <thead>
+                <tr>
+                    <th scope="col">번호</th>
+                    <th scope="col">시도명</th>
+                    <th scope="col">시군구</th>
+                    <th scope="col">누적확진자</th>
+                    <th scope="col">누적사망자</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for data in result %}    
+                <tr>
+                    <td>{{loop.index}}</td>
+                    <td>{{data['시도명']}}</td>
+                    <td>{{data['시군구']}}</td>
+                    <td>{{data['확진자']}}</td>
+                    <td>{{data['사망자']}}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>   
+    </div>
+
+</main>
+
+{% endblock %}
+
+{% block script %}
+  <!-- js 넣을거 있으면 여기에 넣으면 됨 -->
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#select_city").change(function(){
+            let selected_city = $(this).val();
+            location.href= '/citygungu/covid19_inkorea/'+selected_city;
+    });
+});
+</script>
+{% endblock %}
+
+
+<!-- 데이터 테이블 표 값만 바꾸기 위한 자바스크립트 -->
+ <!-- <script src="url_for('static', filename='/js/update_data.js')"></script>   주석처리 하기 위해서 진자문법 삭제 / 코드 길이 줄이기 위해 자바스크립트 파일 생성 -->              
+
+    <!-- let a = `{{result}}`;                  문자열 중에서 작은 따옴표가 유니코드로 출력되는 것을 확인
+    a = a.replaceAll("&#39;", "\"");            객체로 만들기 위해 오류난 값을 큰 따옴 표로 대체 (\")
+    a = JSON.parse(a);                          JSON.parse()에 변수를 담아 자바스크립트에서 사용 가능한 객체로 변환
+
+    let selected_city = $(this).val();
+    let arr=[];
+    if(selected_city != "전체"){
+        for(let i=0;i<a.length;i++){
+            obj = a[i];
+            for(x in obj){
+                if(x=="시도명"){
+                    if(obj[x]==selected_city){
+                        arr.push(obj);
+                    }
+                }
+            }
+        }
+    update_data(arr, selected_city);
+    }else{
+    update_data(a, selected_city);
+    }
+    
+    -->
+
+
+
+
+<!-- ajax 통신 하려고 코드를 짰는데 인코딩 오류로 인해 사용하지 못함.-->
+
+    <!-- $.ajax({
+        type: 'GET',
+        url: '/citygungu/covid19_inkorea/'+selected_city,
+        headers: {
+            "Content-Type" : "application/json",
+            "X-HTTP-Method-Override" : "GET"
+        },
+        dataType : "text",
+        success: function(result){
+            console.log(result)
+            let dtable = $("#dtable tbody");
+            dtable.empty();  // 기존 데이터 초기화
+            $.each(result, function(index, data){
+                dtable.append(`<tr>
+                            <td>${index +1}</td>
+                            <td>${data['시도명']}</td>
+                            <td>${data['시군구']}</td>
+                            <td>${data['확진자']}</td>
+                            <td>${data['사망자']}</td></tr>`);
+            });
+        }
+    }); -->
+    
